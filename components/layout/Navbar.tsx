@@ -15,14 +15,16 @@ import {
 } from '@chakra-ui/react'
 import { Link } from '@chakra-ui/next-js'
 import { HamburgerIcon } from '@chakra-ui/icons'
+import { User } from '@/components/layout/Layout'
+import cookie from 'js-cookie'
 
-const Navbar = () => {
+const Navbar = ({ user }: { user: User }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [isMobile] = useMediaQuery('(max-width: 1024px)', {
         ssr: true,
         fallback: false, // return false on the server, and re-evaluate on the client side
     })
-    const MenuItems = [
+    const publicMenuItems = [
         {
             title: 'Login',
             route: '/',
@@ -31,6 +33,9 @@ const Navbar = () => {
             title: 'Sign Up',
             route: '/signup',
         },
+    ]
+
+    const privateMenuItems = [
         {
             title: 'Profile',
             route: '/profile',
@@ -66,11 +71,25 @@ const Navbar = () => {
                             justifyContent={'center'}
                             spacing={12}
                         >
-                            {MenuItems.map(({ title, route }) => (
-                                <Link key={title} href={route}>
-                                    {title}
+                            {!user
+                                ? publicMenuItems.map(({ title, route }) => (
+                                      <Link key={title} href={route}>
+                                          {title}
+                                      </Link>
+                                  ))
+                                : privateMenuItems.map(({ title, route }) => (
+                                      <Link key={title} href={route}>
+                                          {title}
+                                      </Link>
+                                  ))}
+                            {user && (
+                                <Link
+                                    href={'/'}
+                                    onClick={() => cookie.remove('token')}
+                                >
+                                    Logout
                                 </Link>
-                            ))}
+                            )}
                         </HStack>
                     </Menu>
                 )}
@@ -83,15 +102,37 @@ const Navbar = () => {
                         <DrawerHeader>Menu</DrawerHeader>
                         <DrawerBody>
                             <VStack alignItems={'start'}>
-                                {MenuItems.map(({ title, route }) => (
+                                {!user
+                                    ? publicMenuItems.map(
+                                          ({ title, route }) => (
+                                              <Link
+                                                  key={title}
+                                                  href={route}
+                                                  onClick={onClose}
+                                              >
+                                                  {title}
+                                              </Link>
+                                          )
+                                      )
+                                    : privateMenuItems.map(
+                                          ({ title, route }) => (
+                                              <Link
+                                                  key={title}
+                                                  href={route}
+                                                  onClick={onClose}
+                                              >
+                                                  {title}
+                                              </Link>
+                                          )
+                                      )}
+                                {user && (
                                     <Link
-                                        key={title}
-                                        href={route}
-                                        onClick={onClose}
+                                        href={'/'}
+                                        onClick={() => cookie.remove('token')}
                                     >
-                                        {title}
+                                        Logout
                                     </Link>
-                                ))}
+                                )}
                             </VStack>
                         </DrawerBody>
                     </DrawerContent>
