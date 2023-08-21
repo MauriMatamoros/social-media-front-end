@@ -28,7 +28,7 @@ export default function App({
                 />
             </Head>
             <Layout user={user}>
-                <Component {...pageProps} />
+                <Component {...pageProps} user={user} />
             </Layout>
         </ChakraProvider>
     )
