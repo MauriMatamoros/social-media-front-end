@@ -166,10 +166,6 @@ const VideoCard = ({ video, author, currentUser }: PropTypes) => {
                     ...prevState,
                     ...unFavoritedVideo,
                 }))
-                const { data: favoritedVideo } = await socialMedia.get(
-                    `/videos/${video.id}`,
-                    { headers: { Authorization: `Bearer ${token}` } }
-                )
                 toast({
                     position: 'top-right',
                     title: 'Video removed from Favorites!',
@@ -178,9 +174,13 @@ const VideoCard = ({ video, author, currentUser }: PropTypes) => {
                     isClosable: true,
                 })
             } else {
-                const { data: favoritedVideo } = await socialMedia.patch(
+                await socialMedia.patch(
                     `/videos/${video.id}/favorite`,
                     {},
+                    { headers: { Authorization: `Bearer ${token}` } }
+                )
+                const { data: favoritedVideo } = await socialMedia.get(
+                    `/videos/${video.id}`,
                     { headers: { Authorization: `Bearer ${token}` } }
                 )
                 setUpdatedVideo((prevState) => ({
@@ -239,15 +239,29 @@ const VideoCard = ({ video, author, currentUser }: PropTypes) => {
                         </HStack>
                     </Box>
                 </HStack>
+                <HStack>
+                    <Text color={'gray.900'}>
+                        <a
+                            target="_blank"
+                            rel="noopener"
+                            href={updatedVideo.src}
+                        >
+                            Src: {updatedVideo.src}
+                        </a>
+                    </Text>
+                </HStack>
                 <HStack w={'100%'} justifyContent={'space-between'}>
                     <Text color={'gray.700'}>
                         <Icon as={FaHeart} mr={1} />
                         <Badge>{updatedVideo.favoritedBy.length}</Badge>{' '}
-                        Favorites
+                        <Link href={`/videos/favorites/${video.id}`}>
+                            Favorites
+                        </Link>
                     </Text>
                     <Text color={'gray.700'}>
                         <Icon as={FaThumbsUp} mr={1} />
-                        <Badge>{updatedVideo.likedBy.length}</Badge> Likes
+                        <Badge>{updatedVideo.likedBy.length}</Badge>{' '}
+                        <Link href={`/videos/likes/${video.id}`}>Likes</Link>
                     </Text>
                 </HStack>
             </VStack>
