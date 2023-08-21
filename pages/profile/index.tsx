@@ -11,8 +11,6 @@ interface PropTypes {
 }
 
 const Profile = ({ videos, user }: PropTypes) => {
-    console.log(videos)
-    console.log(user)
     return (
         <Container>
             <ProfileHeader user={user} />

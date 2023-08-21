@@ -17,6 +17,7 @@ import { FaVideo } from 'react-icons/fa'
 import cookie from 'js-cookie'
 import { socialMedia } from '@/api/socialMedia'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 interface PropTypes {
     user: User
@@ -26,25 +27,31 @@ interface PropTypes {
 const ProfileHeader = ({ user, currentUser }: PropTypes) => {
     const router = useRouter()
     const toast = useToast()
-    const handleFollowOrUnfollow = async (following: boolean) => {
+    const [isFollowing, setIsFollowing] = useState(
+        currentUser?.following.some(({ id }) => id === user.id)
+    )
+
+    const handleFollowOrUnfollow = async () => {
         const token = cookie.get('token')
         try {
-            if (following) {
+            if (isFollowing) {
                 await socialMedia.patch(
                     `/users/${user.id}/unfollow`,
                     {},
                     { headers: { Authorization: `Bearer ${token}` } }
                 )
+                setIsFollowing(false)
             } else {
                 await socialMedia.patch(
                     `/users/${user.id}/follow`,
                     {},
                     { headers: { Authorization: `Bearer ${token}` } }
                 )
+                setIsFollowing(true)
             }
             toast({
                 position: 'top-right',
-                title: following ? 'Unfollowed!' : 'Followed!',
+                title: isFollowing ? 'Unfollowed!' : 'Followed!',
                 description: `You'll be redirected to you profile soon!`,
                 status: 'success',
                 duration: 5000,
@@ -56,7 +63,7 @@ const ProfileHeader = ({ user, currentUser }: PropTypes) => {
                 position: 'top-right',
                 title: 'Oops!',
                 description: `Unable to ${
-                    following ? 'Unfollow' : 'Follow'
+                    isFollowing ? 'Unfollow' : 'Follow'
                 } user.`,
                 status: 'error',
                 duration: 5000,
@@ -113,17 +120,9 @@ const ProfileHeader = ({ user, currentUser }: PropTypes) => {
                     type={'submit'}
                     w={'100%'}
                     colorScheme={'blue'}
-                    onClick={() =>
-                        handleFollowOrUnfollow(
-                            currentUser?.following.some(
-                                ({ id }) => id === user.id
-                            )
-                        )
-                    }
+                    onClick={handleFollowOrUnfollow}
                 >
-                    {currentUser?.following.some(({ id }) => id === user.id)
-                        ? 'Unfollow'
-                        : 'Follow'}
+                    {isFollowing ? 'Unfollow' : 'Follow'}
                 </Button>
             )}
         </Container>
