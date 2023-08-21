@@ -2,7 +2,7 @@ import type { AppProps } from 'next/app'
 import { ChakraProvider } from '@chakra-ui/react'
 import Head from 'next/head'
 import Layout from '@/components/layout/Layout'
-import { parseCookies } from 'nookies'
+import { parseCookies, destroyCookie } from 'nookies'
 import { socialMedia } from '@/api/socialMedia'
 import jwt from 'jsonwebtoken'
 import Router from 'next/router'
@@ -58,10 +58,15 @@ App.getInitialProps = async ({ ctx }: any) => {
             redirect(ctx, '/videos')
         }
         const { id } = jwt.decode(token) as { id: string }
-        const { data: user } = await socialMedia.get(`/users/${id}`, {
-            headers: { Authorization: `Bearer ${token}` },
-        })
-
-        return { user }
+        try {
+            const { data: user } = await socialMedia.get(`/users/${id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            return { user }
+        } catch (e) {
+            destroyCookie(ctx, 'token')
+            redirect(ctx, '/')
+            return {}
+        }
     }
 }

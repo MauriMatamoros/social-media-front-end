@@ -1,5 +1,5 @@
 import { parseCookies } from 'nookies'
-import VideoCard from '@/components/video/VideoCard'
+import VideoFeed from '@/components/video/VideoFeed'
 import { socialMedia } from '@/api/socialMedia'
 import ProfileHeader from '@/components/profile/ProfileHeader'
 import { Container } from '@chakra-ui/react'
@@ -25,7 +25,7 @@ const Profile = ({ videos, user }: PropTypes) => {
             <Container>
                 <ProfileHeader user={user} />
                 {videos.map((video) => (
-                    <VideoCard key={video.id} video={video} />
+                    <VideoFeed key={video.id} video={video} />
                 ))}
             </Container>
         </>

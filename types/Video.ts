@@ -1,3 +1,5 @@
+import { User } from '@/types/User'
+
 export type Video = {
     id: number
     title: string
@@ -5,4 +7,6 @@ export type Video = {
     published: boolean
     authorId: string
     createdAt: string
+    favoritedBy: Partial<User>[]
+    likedBy: Partial<User>[]
 }
