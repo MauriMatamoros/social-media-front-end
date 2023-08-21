@@ -18,6 +18,7 @@ import { User } from '@/types/User'
 import { useState } from 'react'
 import { socialMedia } from '@/api/socialMedia'
 import cookie from 'js-cookie'
+import { useRouter } from 'next/router'
 
 interface PropTypes {
     video: Video
@@ -26,6 +27,7 @@ interface PropTypes {
 }
 
 const VideoCard = ({ video, author, currentUser }: PropTypes) => {
+    const router = useRouter()
     const [liked, setLiked] = useState(
         video.likedBy.some(({ id }) => id === currentUser.id)
     )
@@ -293,6 +295,19 @@ const VideoCard = ({ video, author, currentUser }: PropTypes) => {
                     onClick={handlePublishUnPublish}
                 >
                     {updatedVideo.published ? 'Unpublish' : 'Publish'}
+                </Button>
+            )}
+            {currentUser.id === author.id && (
+                <Button
+                    mt={5}
+                    type={'submit'}
+                    w={'100%'}
+                    colorScheme={'blue'}
+                    onClick={() => {
+                        router.push(`/videos/edit/${video.id}`)
+                    }}
+                >
+                    Edit
                 </Button>
             )}
         </Container>

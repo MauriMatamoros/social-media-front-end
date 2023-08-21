@@ -2,10 +2,7 @@ import { parseCookies } from 'nookies'
 import { socialMedia } from '@/api/socialMedia'
 import { Button, Container } from '@chakra-ui/react'
 import VideoFeed from '@/components/video/VideoFeed'
-
-import { User } from '@/types/User'
 import { Video } from '@/types/Video'
-import { Link } from '@chakra-ui/next-js'
 import { useRouter } from 'next/router'
 
 interface PropTypes {
@@ -16,7 +13,7 @@ const Videos = ({ videos }: PropTypes) => {
     const router = useRouter()
 
     const onClick = () => {
-        router.push('/videos/create')
+        router.push('/videos/add')
     }
     return (
         <Container>
