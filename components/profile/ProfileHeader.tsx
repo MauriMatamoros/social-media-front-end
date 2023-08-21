@@ -100,14 +100,17 @@ const ProfileHeader = ({ user, currentUser }: PropTypes) => {
                 <HStack w={'100%'}>
                     <Text color={'gray.700'}>
                         <Icon as={FaRankingStar} mr={1} />
-                        <Badge>{user.likes.length}</Badge> Likes
+                        <Badge>{user.likes.length}</Badge>{' '}
+                        <Link href={`/profile/likes/${user.id}`}>Likes</Link>
                     </Text>
                 </HStack>
                 <HStack w={'100%'} justifyContent={'space-between'}>
                     <Text color={'gray.700'}>
                         <Icon as={FaHeart} mr={1} />
-                        <Badge>{user.favoriteVideos.length}</Badge> Favorite
-                        Videos
+                        <Badge>{user.favoriteVideos.length}</Badge>{' '}
+                        <Link href={`/profile/favorites/${user.id}`}>
+                            Favorite Videos
+                        </Link>
                     </Text>
                     <Text color={'gray.700'}>
                         <Icon as={FaVideo} mr={1} />

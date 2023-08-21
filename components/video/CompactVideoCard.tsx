@@ -6,7 +6,7 @@ interface PropTypes {
     video: Partial<Video>
 }
 
-const CompactVideoCard = ({ video }: PropTypes) => {
+const VideoCard = ({ video }: PropTypes) => {
     return (
         <Box
             w={'100%'}
@@ -28,4 +28,4 @@ const CompactVideoCard = ({ video }: PropTypes) => {
     )
 }
 
-export default CompactVideoCard
+export default VideoCard
