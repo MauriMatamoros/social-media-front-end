@@ -145,7 +145,7 @@ export default function Home({ formSize }: GeneralProps) {
                         </Button>
                         <Box mt={4}>
                             {"Don't have an account? "}
-                            <Link href={'/'}>Sign Up Here</Link>
+                            <Link href={'/signup'}>Sign Up Here</Link>
                         </Box>
                     </form>
                 </VStack>
