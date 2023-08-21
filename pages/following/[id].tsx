@@ -1,25 +1,27 @@
-import ProfileHeader from '@/components/profile/ProfileHeader'
 import { parseCookies } from 'nookies'
 import { socialMedia } from '@/api/socialMedia'
-
 import { User } from '@/types/User'
 import Head from 'next/head'
+import { Container, Heading } from '@chakra-ui/react'
+import UserList from '@/components/user/UserList'
 
 interface PropTypes {
     externalUser: User
-    user: User
 }
-const ProfileDetails = ({ externalUser, user }: PropTypes) => {
+const FollowingExternal = ({ externalUser }: PropTypes) => {
     return (
         <>
             <Head>
-                <title>Profile</title>
+                <title>Following</title>
                 <meta
                     name={'description'}
-                    content={`Profile for user ${user.id}`}
+                    content={`Users that ${externalUser.name} follows`}
                 />
             </Head>
-            <ProfileHeader user={externalUser} currentUser={user} />
+            <Container>
+                <Heading>{`Following ${externalUser.name}`}</Heading>
+                <UserList users={externalUser.following} />
+            </Container>
         </>
     )
 }
@@ -35,5 +37,4 @@ export const getServerSideProps = async (ctx: any) => {
     )
     return { props: { externalUser } }
 }
-
-export default ProfileDetails
+export default FollowingExternal

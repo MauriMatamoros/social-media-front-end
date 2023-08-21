@@ -1,22 +1,22 @@
 import {
     Drawer,
+    DrawerBody,
+    DrawerCloseButton,
+    DrawerContent,
+    DrawerHeader,
+    DrawerOverlay,
     HStack,
     IconButton,
     Menu,
     MenuButton,
     useDisclosure,
-    DrawerContent,
-    DrawerCloseButton,
-    DrawerHeader,
-    DrawerBody,
-    DrawerOverlay,
-    VStack,
     useMediaQuery,
+    VStack,
 } from '@chakra-ui/react'
 import { Link } from '@chakra-ui/next-js'
 import { HamburgerIcon } from '@chakra-ui/icons'
-import { User } from '@/components/layout/Layout'
 import cookie from 'js-cookie'
+import { User } from '@/types/User'
 
 const Navbar = ({ user }: { user: User }) => {
     const { isOpen, onOpen, onClose } = useDisclosure()

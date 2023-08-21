@@ -1,4 +1,4 @@
-import { Video } from '@/components/video/VideoCard'
+import { Video } from '@/types/Video'
 
 interface PropTypes {
     video: Video

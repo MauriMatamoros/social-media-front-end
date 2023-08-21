@@ -1,9 +1,11 @@
 import { parseCookies } from 'nookies'
-import VideoCard, { Video } from '@/components/video/VideoCard'
-import { User } from '@/components/layout/Layout'
+import VideoCard from '@/components/video/VideoCard'
 import { socialMedia } from '@/api/socialMedia'
 import ProfileHeader from '@/components/profile/ProfileHeader'
 import { Container } from '@chakra-ui/react'
+import { User } from '@/types/User'
+import { Video } from '@/types/Video'
+import Head from 'next/head'
 
 interface PropTypes {
     videos: Video[]
@@ -12,12 +14,21 @@ interface PropTypes {
 
 const Profile = ({ videos, user }: PropTypes) => {
     return (
-        <Container>
-            <ProfileHeader user={user} />
-            {videos.map((video) => (
-                <VideoCard key={video.id} video={video} />
-            ))}
-        </Container>
+        <>
+            <Head>
+                <title>Profile</title>
+                <meta
+                    name={'description'}
+                    content={`Profile for user ${user.id}`}
+                />
+            </Head>
+            <Container>
+                <ProfileHeader user={user} />
+                {videos.map((video) => (
+                    <VideoCard key={video.id} video={video} />
+                ))}
+            </Container>
+        </>
     )
 }
 

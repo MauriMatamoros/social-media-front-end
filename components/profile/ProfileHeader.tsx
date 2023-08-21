@@ -12,12 +12,13 @@ import {
     VStack,
 } from '@chakra-ui/react'
 import { FaHeart, FaRankingStar } from 'react-icons/fa6'
-import { User } from '@/components/layout/Layout'
 import { FaVideo } from 'react-icons/fa'
 import cookie from 'js-cookie'
 import { socialMedia } from '@/api/socialMedia'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { User } from '@/types/User'
+import { Link } from '@chakra-ui/next-js'
 
 interface PropTypes {
     user: User
@@ -30,6 +31,7 @@ const ProfileHeader = ({ user, currentUser }: PropTypes) => {
     const [isFollowing, setIsFollowing] = useState(
         currentUser?.following.some(({ id }) => id === user.id)
     )
+    const [updatedUser, setUpdatedUser] = useState<User | null>(null)
 
     const handleFollowOrUnfollow = async () => {
         const token = cookie.get('token')
@@ -40,6 +42,7 @@ const ProfileHeader = ({ user, currentUser }: PropTypes) => {
                     {},
                     { headers: { Authorization: `Bearer ${token}` } }
                 )
+
                 setIsFollowing(false)
             } else {
                 await socialMedia.patch(
@@ -49,6 +52,10 @@ const ProfileHeader = ({ user, currentUser }: PropTypes) => {
                 )
                 setIsFollowing(true)
             }
+            const { data } = await socialMedia.get(`/users/${user.id}`, {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            setUpdatedUser(data)
             toast({
                 position: 'top-right',
                 title: isFollowing ? 'Unfollowed!' : 'Followed!',
@@ -57,7 +64,9 @@ const ProfileHeader = ({ user, currentUser }: PropTypes) => {
                 duration: 5000,
                 isClosable: true,
             })
-            router.push('/profile')
+            setTimeout(() => {
+                router.push('/profile')
+            }, 5000)
         } catch (e) {
             toast({
                 position: 'top-right',
@@ -107,14 +116,36 @@ const ProfileHeader = ({ user, currentUser }: PropTypes) => {
                 </HStack>
                 <HStack width={'100%'} justifyContent={'space-between'}>
                     <Text>
-                        <Badge>{user.following.length}</Badge> Following
+                        <Badge>
+                            {updatedUser
+                                ? updatedUser.following.length
+                                : user.following.length}
+                        </Badge>{' '}
+                        {currentUser ? (
+                            <Link href={`/following/${user.id}`}>
+                                Following
+                            </Link>
+                        ) : (
+                            <Link href={'/following'}>Following</Link>
+                        )}
                     </Text>
                     <Text>
-                        <Badge>{user.followedBy.length}</Badge> Followers
+                        <Badge>
+                            {updatedUser
+                                ? updatedUser.followedBy.length
+                                : user.followedBy.length}
+                        </Badge>
+                        {currentUser ? (
+                            <Link href={`/followers/${user.id}`}>
+                                Followers
+                            </Link>
+                        ) : (
+                            <Link href={'/followers'}>Followers</Link>
+                        )}
                     </Text>
                 </HStack>
             </VStack>
-            {currentUser && (
+            {currentUser && currentUser.id !== user.id && (
                 <Button
                     mt={5}
                     type={'submit'}

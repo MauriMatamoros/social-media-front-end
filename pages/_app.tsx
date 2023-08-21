@@ -1,11 +1,12 @@
 import type { AppProps } from 'next/app'
 import { ChakraProvider } from '@chakra-ui/react'
 import Head from 'next/head'
-import Layout, { User } from '@/components/layout/Layout'
+import Layout from '@/components/layout/Layout'
 import { parseCookies } from 'nookies'
 import { socialMedia } from '@/api/socialMedia'
 import jwt from 'jsonwebtoken'
 import Router from 'next/router'
+import { User } from '@/types/User'
 
 export default function App({
     Component,

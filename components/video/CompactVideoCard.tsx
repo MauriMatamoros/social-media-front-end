@@ -1,18 +1,9 @@
-import {
-    Badge,
-    Box,
-    Heading,
-    HStack,
-    Icon,
-    Text,
-    VStack,
-} from '@chakra-ui/react'
-import { FaRegCalendarDays } from 'react-icons/fa6'
+import { Box, Heading, HStack, VStack } from '@chakra-ui/react'
 import { Link } from '@chakra-ui/next-js'
 import { Video } from '@/types/Video'
 
 interface PropTypes {
-    video: Video
+    video: Partial<Video>
 }
 
 const VideoCard = ({ video }: PropTypes) => {
@@ -31,17 +22,6 @@ const VideoCard = ({ video }: PropTypes) => {
                     <Heading as={'h2'} size={'sm'}>
                         <Link href={`/videos/${video.id}`}>{video.title}</Link>
                     </Heading>
-                    {video.published ? (
-                        <Badge colorScheme={'green'}>Published</Badge>
-                    ) : (
-                        <Badge colorScheme={'red'}>Unpublished</Badge>
-                    )}
-                </HStack>
-                <HStack justifyContent={'space-between'} w={'100%'}>
-                    <Text color={'gray.700'}>
-                        <Icon as={FaRegCalendarDays} mr={1} />
-                        {new Date(video.createdAt).toLocaleDateString()}
-                    </Text>
                 </HStack>
             </VStack>
         </Box>

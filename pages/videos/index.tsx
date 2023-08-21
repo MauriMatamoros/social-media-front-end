@@ -1,8 +1,10 @@
 import { parseCookies } from 'nookies'
 import { socialMedia } from '@/api/socialMedia'
 import { Button, Container } from '@chakra-ui/react'
-import VideoCard, { Video } from '@/components/video/VideoCard'
-import { User } from '@/components/layout/Layout'
+import VideoCard from '@/components/video/VideoCard'
+
+import { User } from '@/types/User'
+import { Video } from '@/types/Video'
 
 interface PropTypes {
     videos: Video[]

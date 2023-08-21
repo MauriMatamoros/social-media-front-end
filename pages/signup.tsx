@@ -8,10 +8,10 @@ import {
     Input,
     InputGroup,
     InputRightElement,
-    useBoolean,
-    VStack,
     Switch,
+    useBoolean,
     useToast,
+    VStack,
 } from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import { GeneralProps } from '@/components/layout/Layout'
