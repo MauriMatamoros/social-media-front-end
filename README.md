@@ -38,4 +38,4 @@ $ npm start
 
 ## Stay in touch
 
-- Author - [Mauricio Matamoros](https://github.com/MauriMatamoros)
+- Author - **[Mauricio Matamoros](https://github.com/MauriMatamoros)**
